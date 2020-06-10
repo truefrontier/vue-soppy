@@ -5,10 +5,15 @@
 
 __NOTE:__ This setup assumes you're using a [vue-cli](https://cli.vuejs.org/) project with [vue-router](https://router.vuejs.org/) and [vuex](https://vuex.vuejs.org/).
 
+```
+$ vue create my-project && cd my-project/
+$ npm install vue-soggy
+```
+
 __src/main.js__
 ```
-import SoggyLoadbar from '@/vendor/soggy/components/SoggyLoadbar';
-import SoggyLink from '@/vendor/soggy/components/SoggyLink';
+import SoggyLoadbar from 'vue-soggy/components/SoggyLoadbar';
+import SoggyLink from 'vue-soggy/components/SoggyLink';
 Vue.component('soggy-loadbar', SoggyLoadbar);
 Vue.component('soggy-link', SoggyLink);
 ```
@@ -30,8 +35,8 @@ __src/store/index.js__
 ```
 import Vue from 'vue';
 import Vuex from 'vuex';
-import soggy from 'soggy/store/modules/soggy';
-import { soggyState, soggyActions, soggyMutations  } from 'soggy/utils/storing';
+import soggy from 'vue-soggy/store/modules/soggy';
+import { soggyState, soggyActions, soggyMutations  } from 'vue-soggy/utils/storing';
 
 Vue.use(Vuex);
 
@@ -72,8 +77,8 @@ __src/router/index.js__
 ```
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { soggyRoutes, soggyRouter } from '@/vendor/soggy/utils/routing';
-import SoggyBus from '@/vendor/soggy/utils/bus';
+import { soggyRoutes, soggyRouter } from 'vue-soggy/utils/routing';
+import SoggyBus from 'vue-soggy/utils/bus';
 
 const routes = [
   // Override (or add more) routes found in @/router/routes.json
