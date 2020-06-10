@@ -1,5 +1,7 @@
 # vue-soggy
 
+## What and Why?
+Check out [this article on Medium](https://medium.com/@kevinkirchner/a-ready-to-try-concept-in-response-to-second-guessing-the-modern-web-6946ec4d0598)
 
 ## How to setup
 
