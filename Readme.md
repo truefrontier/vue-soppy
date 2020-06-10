@@ -20,7 +20,7 @@ Vue.component('soggy-loadbar', SoggyLoadbar);
 Vue.component('soggy-link', SoggyLink);
 ```
 
-- Use `<soggy-link>` instead of `<router-link>` to take advantage of extra functionality like preloading data on link hover.
+- Use `<soggy-link>` to take advantage of extra functionality like preloading data on link hover. Use it like `<router-link>` and check out [the component file](https://github.com/truefrontier/vue-soggy/blob/master/components/SoggyLink.vue) for more details.
 - `<soggy-loadbar>` is a tailwindcss-styled component showing the load progress of the soggy page requests.
 
 ---
