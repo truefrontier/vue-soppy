@@ -1,6 +1,6 @@
 {
   "name": "vue-soppy",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Keeping your vue-cli app soppy by hydrating on each routing update",
   "author": "Kevin Kirchner <kevin@truefrontierapps.com>",
   "license": "MIT",
