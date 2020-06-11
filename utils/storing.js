@@ -1,15 +1,17 @@
 import routesJSON from '@/router/routes.json';
 import { clone } from './object';
 
-let state = {
-  preloadState: {},
+export const soppyState = (routesJSON) => {
+  let state = {
+    preloadState: {},
+  };
+
+  routesJSON.forEach((route) => {
+    state.preloadState[route.path] = {};
+  });
+
+  return state;
 };
-
-routesJSON.forEach((route) => {
-  state.preloadState[route.path] = {};
-});
-
-export const soppyState = state;
 
 export const soppyActions = {
   setSoppyState({ commit }, data) {

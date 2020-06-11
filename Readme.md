@@ -44,6 +44,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import soppy from 'vue-soppy/store/modules/soppy';
 import { soppyState, soppyActions, soppyMutations  } from 'vue-soppy/utils/storing';
+import routesJSON from '@/router/routes.json';
+
 
 Vue.use(Vuex);
 
@@ -52,7 +54,7 @@ const initialState = {
 };
 
 export default new Vuex.Store({
-  state: Object.assign(soppyState, initialState, window.SoppyState || {}),
+  state: Object.assign(soppyState(routesJSON), initialState, window.SoppyState || {}),
 
   actions: Object.assign(soppyActions, {
     // Your custom actions
@@ -89,16 +91,17 @@ __src/router/index.js__
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { soppyRoutes, soppyRouter } from 'vue-soppy/utils/routing';
-import SoppyBus from 'vue-soppy/utils/bus';
+import routesJSON from '@/router/routes.json';
+// import SoppyBus from 'vue-soppy/utils/bus';
 
 const routes = [
-  // Override (or add more) routes found in @/router/routes.json
+  // Override (or add more) routes found in routesJSON
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: soppyRoutes(routes),
+  routes: soppyRoutes(routesJSON, routes),
 });
 
 // For when any requests return a 401 Unauthorized status

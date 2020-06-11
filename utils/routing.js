@@ -1,8 +1,7 @@
-import routesJSON from '@/router/routes.json';
 import store from '@/store';
 import SoppyBus from './bus';
 
-export const soppyRoutes = (args = []) => {
+export const soppyRoutes = (routesJSON, args = []) => {
   let beforeEnters = {};
   let paths = {};
   let components = {};
