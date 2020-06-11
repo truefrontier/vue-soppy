@@ -7,5 +7,11 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/truefrontier/vue-soppy.git"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "vue": "^2.6.11",
+    "vue-router": "^3.3.2",
+    "vuex": "^3.4.0"
   }
 }
