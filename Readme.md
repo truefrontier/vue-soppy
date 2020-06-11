@@ -1,5 +1,7 @@
 # vue-soppy
 
+[![npm version](https://badge.fury.io/js/vue-soppy.svg)](https://badge.fury.io/js/vue-soppy)
+
 ## What and Why?
 Check out [this article on Medium](https://medium.com/@kevinkirchner/a-ready-to-try-concept-in-response-to-second-guessing-the-modern-web-6946ec4d0598) to get a better understanding why vue-soppy exists.
 
