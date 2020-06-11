@@ -1,5 +1,5 @@
 <template>
-  <div class="SoggyLoadbar h-1 relative">
+  <div class="SoppyLoadbar h-1 relative">
     <div
       :class="[
         'absolute top-0 bottom-0 left-0 transition-all',
@@ -17,7 +17,7 @@
 import { mapState, mapGetters } from 'vuex';
 
 export default {
-  name: 'SoggyLoadbar',
+  name: 'SoppyLoadbar',
 
   data() {
     return {
@@ -45,7 +45,7 @@ export default {
       return this.isGetting.indexOf(this.$route.path) !== -1;
     },
 
-    ...mapState('soggy', ['isGetting']),
+    ...mapState('soppy', ['isGetting']),
   },
 
   watch: {
@@ -66,4 +66,4 @@ export default {
 };
 </script>
 
-<!-- <style lang="scss" src="./SoggyLoadbar.scss" scoped></style> -->
+<!-- <style lang="scss" src="./SoppyLoadbar.scss" scoped></style> -->

@@ -1,7 +1,7 @@
 import { clone } from '../../utils/object';
 import axios from 'axios';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
-import SoggyBus from '../../utils/bus';
+import SoppyBus from '../../utils/bus';
 
 // -- STATE -- //
 
@@ -25,12 +25,12 @@ const actions = {
     return axios
       .post(path, postData)
       .then(({ data }) => {
-        dispatch('setSoggyState', { data }, { root: true });
-        if (data.to) SoggyBus.$emit('redirect', { name: data.to });
+        dispatch('setSoppyState', { data }, { root: true });
+        if (data.to) SoppyBus.$emit('redirect', { name: data.to });
         return data;
       })
       .catch((err) => {
-        if (err?.response?.status === 401) SoggyBus.$emit('unauthorized');
+        if (err?.response?.status === 401) SoppyBus.$emit('unauthorized');
       })
       .finally(() => {
         commit('removePosting', path);
@@ -44,19 +44,19 @@ const actions = {
       Object.keys(rootState.preloadState[path]).length
     ) {
       let data = rootState.preloadState[path];
-      return dispatch('setSoggyState', { data }, { root: true });
+      return dispatch('setSoppyState', { data }, { root: true });
     }
 
     commit('addGetting', path);
     return axios
       .get(path)
       .then(({ data }) => {
-        dispatch('setSoggyState', { data }, { root: true });
-        if (data.to) SoggyBus.$emit('redirect', { name: data.to });
+        dispatch('setSoppyState', { data }, { root: true });
+        if (data.to) SoppyBus.$emit('redirect', { name: data.to });
         return data;
       })
       .catch((err) => {
-        if (err?.response?.status === 401) SoggyBus.$emit('unauthorized');
+        if (err?.response?.status === 401) SoppyBus.$emit('unauthorized');
       })
       .finally(() => {
         commit('removeGetting', path);
@@ -70,18 +70,18 @@ const actions = {
       Object.keys(rootState.preloadState[path]).length
     ) {
       let data = rootState.preloadState[path];
-      return dispatch(`setSoggyPreloadState`, { path, data }, { root: true });
+      return dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
     }
 
     commit('addPreloading', path);
     return axios
       .get(path)
       .then(({ data }) => {
-        dispatch(`setSoggyPreloadState`, { path, data }, { root: true });
+        dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
         return data;
       })
       .catch((err) => {
-        if (err?.response?.status === 401) SoggyBus.$emit('unauthorized');
+        if (err?.response?.status === 401) SoppyBus.$emit('unauthorized');
       })
       .finally(() => {
         commit('removePreloading', path);

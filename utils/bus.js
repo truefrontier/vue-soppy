@@ -1,3 +1,3 @@
 import Vue from 'vue';
-const SoggyBus = new Vue();
-export default SoggyBus;
+const SoppyBus = new Vue();
+export default SoppyBus;

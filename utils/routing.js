@@ -1,8 +1,8 @@
 import routesJSON from '@/router/routes.json';
 import store from '@/store';
-import SoggyBus from './bus';
+import SoppyBus from './bus';
 
-export const soggyRoutes = (args = []) => {
+export const soppyRoutes = (args = []) => {
   let beforeEnters = {};
   let paths = {};
   let components = {};
@@ -42,13 +42,13 @@ export const soggyRoutes = (args = []) => {
   });
 };
 
-export const soggyRouter = (router) => {
+export const soppyRouter = (router) => {
   router.beforeEach((to, from, next) => {
-    store.dispatch('soggy/getData', { path: to.path });
+    store.dispatch('soppy/getData', { path: to.path });
     next();
   });
 
-  SoggyBus.$on('redirect', (to) => {
+  SoppyBus.$on('redirect', (to) => {
     router.push(to);
   });
 

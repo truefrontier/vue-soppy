@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'SoggyLink',
+  name: 'SoppyLink',
 
   props: {
     to: String,
@@ -36,14 +36,14 @@ export default {
         const route = this.$router.options.routes.filter((r) => r.name === this.to.name);
         path = route.path;
       }
-      this.$store.dispatch('soggy/preloadData', { path, force: this.forcePreload });
+      this.$store.dispatch('soppy/preloadData', { path, force: this.forcePreload });
     },
 
     onClick($event) {
       if (this.post) {
         let path = this.to;
         $event.preventDefault();
-        this.$store.dispatch('soggy/postData', { path });
+        this.$store.dispatch('soppy/postData', { path });
         return false;
       }
     },
@@ -51,4 +51,4 @@ export default {
 };
 </script>
 
-<!-- <style lang="scss" src="./SoggyLink.scss" scoped></style> -->
+<!-- <style lang="scss" src="./SoppyLink.scss" scoped></style> -->
