@@ -8,6 +8,10 @@
     "type": "git",
     "url": "git+https://github.com/truefrontier/vue-soppy.git"
   },
+  "scripts": {
+    "prepublish": "yarn version",
+    "postpublish": "git push"
+  },
   "peerDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.10.1",
     "axios": "^0.19.2",
