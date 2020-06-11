@@ -32,7 +32,7 @@ export default {
       if (this.disablePreload) return;
 
       let path = this.to;
-      if (this.to?.name) {
+      if (this.to.hasOwnProperty('name')) {
         const route = this.$router.options.routes.filter((r) => r.name === this.to.name);
         path = route.path;
       }

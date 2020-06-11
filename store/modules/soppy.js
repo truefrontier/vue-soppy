@@ -30,7 +30,7 @@ const actions = {
         return data;
       })
       .catch((err) => {
-        if (err?.response?.status === 401) SoppyBus.$emit('unauthorized');
+        if (err && err.response && err.response.status === 401) SoppyBus.$emit('unauthorized');
       })
       .finally(() => {
         commit('removePosting', path);
@@ -56,7 +56,7 @@ const actions = {
         return data;
       })
       .catch((err) => {
-        if (err?.response?.status === 401) SoppyBus.$emit('unauthorized');
+        if (err && err.response && err.response.status === 401) SoppyBus.$emit('unauthorized');
       })
       .finally(() => {
         commit('removeGetting', path);
@@ -81,7 +81,7 @@ const actions = {
         return data;
       })
       .catch((err) => {
-        if (err?.response?.status === 401) SoppyBus.$emit('unauthorized');
+        if (err && err.response && err.response.status === 401) SoppyBus.$emit('unauthorized');
       })
       .finally(() => {
         commit('removePreloading', path);
