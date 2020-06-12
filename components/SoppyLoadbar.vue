@@ -7,7 +7,7 @@
         opacityClass,
         durationClass,
         easingClass,
-        bgClass,
+        loadbarClass,
       ]"
     ></div>
   </div>
@@ -19,13 +19,19 @@ import { mapState, mapGetters } from 'vuex';
 export default {
   name: 'SoppyLoadbar',
 
+  props: {
+    loadbarClass: {
+      type: String,
+      default: 'bg-green-300',
+    },
+  },
+
   data() {
     return {
       opacityClass: 'opacity-100',
       widthClass: 'w-0',
       durationClass: 'duration-700',
       easingClass: 'ease-out',
-      bgClass: 'bg-green-300',
     };
   },
 

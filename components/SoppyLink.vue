@@ -1,16 +1,51 @@
 <template>
-  <router-link :to="to" @mouseenter.native="onMouseenter" @click.native="onClick">
+  <router-link
+    :to="to"
+    :tag="tag"
+    :exact="exact"
+    :append="append"
+    :replace="replace"
+    :activeClass="activeClass"
+    :exactActiveClass="exactActiveClass"
+    :ariaCurrentValue="ariaCurrentValue"
+    :event="event"
+    @mouseenter.native="onMouseenter"
+    @click.native="onClick"
+  >
     <slot></slot>
   </router-link>
 </template>
 
 <script>
+const toTypes = [String, Object];
+const eventTypes = [String, Array];
 export default {
   name: 'SoppyLink',
 
   props: {
-    to: String,
-
+    // router link props
+    to: {
+      type: toTypes,
+      required: true,
+    },
+    tag: {
+      type: String,
+      default: 'a',
+    },
+    exact: Boolean,
+    append: Boolean,
+    replace: Boolean,
+    activeClass: String,
+    exactActiveClass: String,
+    ariaCurrentValue: {
+      type: String,
+      default: 'page',
+    },
+    event: {
+      type: eventTypes,
+      default: 'click',
+    },
+    // Custom props
     forcePreload: {
       type: Boolean,
       default: false,
