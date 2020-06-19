@@ -83,7 +83,7 @@ export default {
         this.width = 100;
         setTimeout(() => {
           clearInterval(this.widthInterval);
-          this.durationClass = 'duration-300';
+          this.durationClass = 'duration-150';
           this.opacityClass = 'opacity-0';
         }, this.hideAfter);
       }
