@@ -63,21 +63,15 @@ export default {
   },
 
   methods: {
-    onMouseenter() {
+    onMouseenter($event) {
       if (this.disablePreload) return;
-
-      let path = this.to;
-      if (this.to.hasOwnProperty('name')) {
-        const [route] = this.$router.options.routes.filter((r) => r.name === this.to.name);
-        path = route.path;
-        // TODO: fillParams
-      }
+      let path = $event.target.getAttribute('href');
       this.$store.dispatch('soppy/preloadData', { path, force: this.forcePreload });
     },
 
     onClick($event) {
       if (this.post) {
-        let path = this.to;
+        let path = $event.target.getAttribute('href');
         $event.preventDefault();
         this.$store.dispatch('soppy/postData', { path });
         return false;
