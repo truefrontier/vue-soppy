@@ -107,8 +107,13 @@ const router = new VueRouter({
 });
 
 // For when any requests return a 401 Unauthorized status
-// SoppyBus.$on('unauthorized', () => {
+// SoppyBus.$on('status-401', () => {
 //   router.replace({ name: 'app.login' });
+// });
+
+// For when any requests return a 404 NotFound status
+// SoppyBus.$on('status-404', () => {
+//   router.replace({ name: 'app.notFound' });
 // });
 
 export default soppyRouter(router);
