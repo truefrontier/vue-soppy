@@ -24,6 +24,11 @@ export default {
       type: String,
       default: 'bg-green-300',
     },
+
+    hideAfter: {
+      type: Number,
+      default: 500,
+    },
   },
 
   data() {
@@ -80,7 +85,7 @@ export default {
           clearInterval(this.widthInterval);
           this.durationClass = 'duration-300';
           this.opacityClass = 'opacity-0';
-        }, 1000);
+        }, this.hideAfter);
       }
     },
   },
