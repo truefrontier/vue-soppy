@@ -9,6 +9,7 @@ const state = {
   isGetting: [],
   isPosting: [],
   isPreloading: [],
+  preloadCancelSource: null,
 };
 
 // -- GETTERS -- //
@@ -65,7 +66,10 @@ const actions = {
       });
   },
 
-  preloadData({ commit, dispatch, rootState }, { path, force = true }) {
+  preloadData(
+    { commit, dispatch, rootState },
+    { path, force = true, cancelable = true, cancel = true },
+  ) {
     if (
       !force &&
       rootState.preloadState.hasOwnProperty(path) &&
@@ -75,16 +79,26 @@ const actions = {
       return dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
     }
 
+    if (cancel && state.preloadCancelSource) state.preloadCancelSource.cancel('cancel-preloadData');
+    if (cancelable) {
+      const CancelToken = axios.CancelToken;
+      const source = CancelToken.source();
+      commit('setPreloadCancelSource', source);
+    }
+
     commit('addPreloading', path);
     return axios
-      .get(path)
+      .get(path, { cancelToken: source.token })
       .then(({ data }) => {
         dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
         return data;
       })
       .catch((err) => {
-        if (err && err.response && err.response.status)
+        if (axios.isCancel(err)) {
+          SoppyBus.$emit(`cancel-preloadData`);
+        } else if (err && err.response && err.response.status) {
           SoppyBus.$emit(`status-${err.response.status}`);
+        }
       })
       .finally(() => {
         commit('removePreloading', path);
@@ -138,6 +152,10 @@ const mutations = {
       isPreloading.splice(index, 1);
       state.isPreloading = isPreloading;
     }
+  },
+
+  setPreloadCancelSource(state, source) {
+    state.preloadCancelSource = source;
   },
 };
 

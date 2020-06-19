@@ -51,6 +51,16 @@ export default {
       default: false,
     },
 
+    cancelPreload: {
+      type: Boolean,
+      default: true,
+    },
+
+    cancelablePreload: {
+      type: Boolean,
+      default: true,
+    },
+
     disablePreload: {
       type: Boolean,
       default: false,
@@ -66,7 +76,12 @@ export default {
     onMouseenter($event) {
       if (this.disablePreload) return;
       let path = $event.target.getAttribute('href');
-      this.$store.dispatch('soppy/preloadData', { path, force: this.forcePreload });
+      this.$store.dispatch('soppy/preloadData', {
+        path,
+        force: this.forcePreload,
+        cancelable: this.cancelablePreload,
+        cancel: this.cancelPreload,
+      });
     },
 
     onClick($event) {
