@@ -7,7 +7,7 @@ export const soppyState = (routesJSON) => {
   };
 
   routesJSON.forEach((route) => {
-    state.preloadState[route.path] = {};
+    if (route.path.indexOf(':') === -1) state.preloadState[route.path] = {};
   });
 
   return state;
