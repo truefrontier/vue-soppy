@@ -68,8 +68,9 @@ export default {
 
       let path = this.to;
       if (this.to.hasOwnProperty('name')) {
-        const route = this.$router.options.routes.filter((r) => r.name === this.to.name);
+        const [route] = this.$router.options.routes.filter((r) => r.name === this.to.name);
         path = route.path;
+        // TODO: fillParams
       }
       this.$store.dispatch('soppy/preloadData', { path, force: this.forcePreload });
     },

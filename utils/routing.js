@@ -42,11 +42,6 @@ export const soppyRoutes = (routesJSON, args = []) => {
 };
 
 export const soppyRouter = (router) => {
-  router.beforeEach((to, from, next) => {
-    store.dispatch('soppy/getData', { path: to.path });
-    next();
-  });
-
   SoppyBus.$on('redirect', (to) => {
     router.push(to);
   });

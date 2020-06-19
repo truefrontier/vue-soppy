@@ -120,37 +120,44 @@ const router = new VueRouter({
 export default soppyRouter(router);
 ```
 
+---
 
-__src/App.vue__ — to set up 404 component
+Your app needs to be wrapped in the `<soppy-app>` component like this:
+
+__src/App.vue__ 
 ```
 <template>
-  <div id="app">
-    <component :is="component"></component>
-  </div>
+  <soppy-app
+    id="app"
+    :view-not-found="notFound"
+    :view-attrs="{ class: 'mt-7' }"
+  >
+    <template v-slot:before>
+      <soppy-loadbar></soppy-loadbar>
+      <header> ... </header>
+    </template>
+    <template v-slot:after>
+      <footer> ... </footer>
+    </template>
+  </soppy-app>
 </template>
 
 <script>
-import SoppyBus from 'vue-soppy/utils/bus';
+import SoppyApp from 'vue-soppy/components/SoppyApp';
 
 export default {
   name: 'App',
 
+  components: {
+    SoppyApp,
+  },
+
   data() {
     return {
-      component: 'router-view',
+      notFound: () => import(/* webpackChunkName: "not-found-view" */ '@/views/NotFound'),
     };
-  },
-
-  mounted() {
-    SoppyBus.$on('status-404', () => {
-      this.component = () =>
-        import(/* webpackChunkName: "not-found-view" */ '@/views/NotFound');
-    });
-  },
-
-  beforeDestroy() {
-    SoppyBus.$off('status-404');
   },
 };
 </script>
+
 ```
