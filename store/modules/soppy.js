@@ -79,16 +79,18 @@ const actions = {
       return dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
     }
 
+    let opts = {};
     if (cancel && state.preloadCancelSource) state.preloadCancelSource.cancel('cancel-preloadData');
     if (cancelable) {
       const CancelToken = axios.CancelToken;
       const source = CancelToken.source();
       commit('setPreloadCancelSource', source);
+      opts.cancelToken = source.token;
     }
 
     commit('addPreloading', path);
     return axios
-      .get(path, { cancelToken: source.token })
+      .get(path, opts)
       .then(({ data }) => {
         dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
         return data;
