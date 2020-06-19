@@ -98,6 +98,12 @@ import routesJSON from '@/router/routes.json';
 
 const routes = [
   // Override (or add more) routes found in routesJSON
+  // For example, a notFound route may look like this
+  {
+    name: 'app.notFound',
+    path: '*',
+    component: () => import(/* webpackChunkName: "not-found-view" */ '@/views/NotFound'),
+  },
 ]
 
 const router = new VueRouter({
@@ -111,12 +117,40 @@ const router = new VueRouter({
 //   router.replace({ name: 'app.login' });
 // });
 
-// For when any requests return a 404 NotFound status
-// SoppyBus.$on('status-404', () => {
-//   router.replace({ name: 'app.notFound' });
-// });
-
 export default soppyRouter(router);
 ```
 
 
+__src/App.vue__ — to set up 404 component
+```
+<template>
+  <div id="app">
+    <component :is="component"></component>
+  </div>
+</template>
+
+<script>
+import SoppyBus from 'vue-soppy/utils/bus';
+
+export default {
+  name: 'App',
+
+  data() {
+    return {
+      component: 'router-view',
+    };
+  },
+
+  mounted() {
+    SoppyBus.$on('status-404', () => {
+      this.component = () =>
+        import(/* webpackChunkName: "not-found-view" */ '@/views/NotFound');
+    });
+  },
+
+  beforeDestroy() {
+    SoppyBus.$off('status-404');
+  },
+};
+</script>
+```
