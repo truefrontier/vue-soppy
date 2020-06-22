@@ -18,6 +18,16 @@ export default {
       default: () => 'router-view',
     },
 
+    viewServerError: {
+      type: Function,
+      default: () => 'router-view',
+    },
+
+    viewUnauthorized: {
+      type: Function,
+      default: () => 'router-view',
+    },
+
     viewAttrs: {
       type: Object,
       default: () => {},
@@ -35,13 +45,23 @@ export default {
   },
 
   mounted() {
+    SoppyBus.$on('status-401', () => {
+      this.component = this.viewUnauthorized;
+    });
+
     SoppyBus.$on('status-404', () => {
       this.component = this.viewNotFound;
+    });
+
+    SoppyBus.$on('status-500', () => {
+      this.component = this.viewServerError;
     });
   },
 
   beforeDestroy() {
+    SoppyBus.$off('status-401');
     SoppyBus.$off('status-404');
+    SoppyBus.$off('status-500');
   },
 
   methods: {
