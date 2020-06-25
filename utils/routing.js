@@ -20,7 +20,7 @@ export const soppyRoutes = (routesJSON, args = []) => {
     if (route.hasOwnProperty('component')) components[route.name] = route.component;
     else if (route.hasOwnProperty('components')) components[route.name] = route.components;
     if (route.hasOwnProperty('path')) paths[route.name] = route.path;
-    if (route.hasOwnProperty('children')) chilren[route.name] = route.children;
+    if (route.hasOwnProperty('children')) children[route.name] = route.children;
   });
 
   return routesJSON.map((route) => {
