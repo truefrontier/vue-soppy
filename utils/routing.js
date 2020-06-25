@@ -5,6 +5,7 @@ export const soppyRoutes = (routesJSON, args = []) => {
   let beforeEnters = {};
   let paths = {};
   let components = {};
+  let children = {};
   let extendRoutes = [];
   if (Array.isArray(args)) {
     extendRoutes = args;
@@ -12,11 +13,14 @@ export const soppyRoutes = (routesJSON, args = []) => {
     beforeEnters = args.beforeEnters || {};
     paths = args.paths || {};
     components = args.components || {};
+    children = args.children || {};
   }
   extendRoutes.forEach((route) => {
     if (route.hasOwnProperty('beforeEnter')) beforeEnters[route.name] = route.beforeEnter;
     if (route.hasOwnProperty('component')) components[route.name] = route.component;
+    else if (route.hasOwnProperty('components')) components[route.name] = route.components;
     if (route.hasOwnProperty('path')) paths[route.name] = route.path;
+    if (route.hasOwnProperty('children')) chilren[route.name] = route.children;
   });
 
   return routesJSON.map((route) => {
@@ -24,6 +28,7 @@ export const soppyRoutes = (routesJSON, args = []) => {
     if (paths.hasOwnProperty(route.name)) {
       route.path = paths[route.name];
     }
+
     route.components = {};
     if (components.hasOwnProperty(route.name)) {
       // Manually set component
@@ -37,6 +42,10 @@ export const soppyRoutes = (routesJSON, args = []) => {
       let component = parts.pop();
       parts.push(component.charAt(0).toUpperCase() + component.slice(1));
       route.components.default = () => import(`@/views/${parts.join('/')}.vue`);
+    }
+
+    if (children.hasOwnProperty(route.name)) {
+      route.children = children[route.name];
     }
     return route;
   });
