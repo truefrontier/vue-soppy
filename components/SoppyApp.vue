@@ -2,6 +2,7 @@
   <div class="SoppyApp">
     <slot></slot>
     <component v-bind="viewAttrs" :is="component"></component>
+    <router-view name="modal"></router-view>
     <slot name="after"></slot>
   </div>
 </template>
