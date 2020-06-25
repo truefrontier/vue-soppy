@@ -24,9 +24,10 @@ export const soppyRoutes = (routesJSON, args = []) => {
     if (paths.hasOwnProperty(route.name)) {
       route.path = paths[route.name];
     }
+    route.components = {};
     if (components.hasOwnProperty(route.name)) {
       // Manually set component
-      route.component = components[route.name];
+      route.components.default = components[route.name];
     } else {
       // Dynamically set component
       let parts = route.name.split('.');
@@ -35,7 +36,7 @@ export const soppyRoutes = (routesJSON, args = []) => {
       // Capitalize first letter of component
       let component = parts.pop();
       parts.push(component.charAt(0).toUpperCase() + component.slice(1));
-      route.component = () => import(`@/views/${parts.join('/')}.vue`);
+      route.components.default = () => import(`@/views/${parts.join('/')}.vue`);
     }
     return route;
   });
