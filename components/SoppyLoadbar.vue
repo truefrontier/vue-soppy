@@ -68,25 +68,28 @@ export default {
 
   watch: {
     isLoading(val, oldVal) {
+      const updateWidth = () => {
+        if (this.width < 38.2) {
+          this.width = this.width * 1.618;
+        } else {
+          let newWidth = 100 - (100 - this.width) / 1.618;
+          this.width = newWidth > 91 ? Math.min(99, this.width + 0.15) : newWidth;
+        }
+      };
+
       if (val) {
         this.opacityClass = 'opacity-100';
         this.width = this.width || 1;
-        this.widthInterval = setInterval(() => {
-          if (this.width < 38.2) {
-            this.width = this.width * 1.618;
-          } else {
-            let newWidth = 100 - (100 - this.width) / 1.618;
-            this.width = newWidth > 85 ? Math.min(95, this.width + 1) : newWidth;
-          }
-        }, 60);
+        this.widthInterval = setInterval(updateWidth, 60);
       } else {
+        clearInterval(this.widthInterval);
         this.easingClass = 'ease-in';
         this.width = 100;
-        setTimeout(() => {
-          clearInterval(this.widthInterval);
-          this.durationClass = 'duration-150';
-          this.opacityClass = 'opacity-0';
-        }, this.hideAfter);
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.opacityClass = 'opacity-0';
+          }, this.hideAfter);
+        });
       }
     },
   },
