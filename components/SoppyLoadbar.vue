@@ -33,10 +33,10 @@ export default {
 
   data() {
     return {
-      opacityClass: 'opacity-100',
+      opacityClass: 'opacity-0',
       width: 0,
       widthInterval: 0,
-      durationClass: 'duration-700',
+      durationClass: 'duration-1000',
       easingClass: 'ease-out',
     };
   },
@@ -68,29 +68,44 @@ export default {
 
   watch: {
     isLoading(val, oldVal) {
-      const updateWidth = () => {
-        if (this.width < 38.2) {
-          this.width = this.width * 1.618;
-        } else {
-          let newWidth = 100 - (100 - this.width) / 1.618;
-          this.width = newWidth > 91 ? Math.min(99, this.width + 0.15) : newWidth;
-        }
-      };
+      clearInterval(this.widthInterval);
 
       if (val) {
         this.opacityClass = 'opacity-100';
         this.width = this.width || 1;
-        this.widthInterval = setInterval(updateWidth, 60);
+        this.widthInterval = setInterval(this.updateWidth, 60);
       } else {
-        clearInterval(this.widthInterval);
         this.easingClass = 'ease-in';
         this.width = 100;
         this.$nextTick(() => {
           setTimeout(() => {
             this.opacityClass = 'opacity-0';
           }, this.hideAfter);
+          setTimeout(this.reset, this.hideAfter + 1000);
         });
       }
+    },
+  },
+
+  methods: {
+    updateWidth() {
+      if (this.width < 38.2) {
+        this.width = this.width * 1.618;
+      } else {
+        let newWidth = 100 - (100 - this.width) / 1.618;
+        this.width = newWidth > 91 ? Math.min(99, this.width + 0.15) : newWidth;
+      }
+    },
+
+    reset() {
+      this.width = 0;
+      this.widthInterval = 0;
+      this.durationClass = 'duration-0';
+      this.easingClass = 'ease-out';
+      setTimeout(() => {
+        this.opacityClass = 'opacity-0';
+        this.durationClass = 'duration-1000';
+      }, 50);
     },
   },
 };

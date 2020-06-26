@@ -53,6 +53,7 @@ const actions = {
     return axios
       .get(path)
       .then(({ data }) => {
+        dispatch('setSoppyPreloadState', { path, data }, { root: true });
         dispatch('setSoppyState', { data }, { root: true });
         if (data.to) SoppyBus.$emit('redirect', { name: data.to });
         return data;
