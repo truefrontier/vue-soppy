@@ -75,7 +75,7 @@ export default {
           if (this.width < 38.2) {
             this.width = this.width * 1.618;
           } else {
-            this.width = 100 - (100 - this.width) / 1.618;
+            this.width = Math.min(85, 100 - (100 - this.width) / 1.618);
           }
         }, 60);
       } else {
