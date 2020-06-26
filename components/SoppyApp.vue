@@ -67,7 +67,9 @@ export default {
 
   methods: {
     getData() {
-      this.$store.dispatch('soppy/getData', { path: this.$route.path });
+      this.$store.dispatch('soppy/getData', {
+        path: this.$route.meta.soppyPath || this.$route.path,
+      });
     },
   },
 };
