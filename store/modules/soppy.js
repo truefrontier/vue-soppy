@@ -20,8 +20,6 @@ const getters = {};
 
 const actions = {
   postData({ commit, dispatch, rootState }, { path, postData }) {
-    if (path.indexOf('undefined') !== -1) return;
-
     commit('addPosting', path);
     if (!path) path = window.location.href;
 
@@ -42,8 +40,6 @@ const actions = {
   },
 
   getData({ commit, dispatch, rootState }, { path, force = true }) {
-    if (path.indexOf('undefined') !== -1) return;
-
     if (
       !force &&
       rootState.preloadState.hasOwnProperty(path) &&
@@ -75,8 +71,6 @@ const actions = {
     { commit, dispatch, rootState },
     { path, force = true, cancelable = true, cancel = true },
   ) {
-    if (path.indexOf('undefined') !== -1) return;
-
     if (
       !force &&
       rootState.preloadState.hasOwnProperty(path) &&
