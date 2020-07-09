@@ -65,11 +65,22 @@ class Soppy {
 
     this.routesJSON.forEach((route) => {
       let mergedRoute = Object.assign(route, routesByName[route.name]);
+      delete routesByName[route.name];
       soppyRoutes.push(mergedRoute);
     });
 
+    // Check for any leftover in routesByName
+    if (Object.keys(routesByName).length) {
+      Object.keys(routesByName).forEach((name) => {
+        let route = routesByName[name];
+        soppyRoutes.push(route);
+      });
+    }
+
+    // Reset routesByName
     routesByName = this.getRoutesByName(soppyRoutes);
 
+    // Build routes
     this.routes = soppyRoutes.map((route) => {
       // Check for path replacements
       if (routesByName[route.name] && routesByName[route.name].path && route.path) {
@@ -92,6 +103,7 @@ class Soppy {
       return route;
     });
 
+    // Reset and store final version of routesByName
     this.routesByName = this.getRoutesByName(this.routes);
 
     return this.routes;
