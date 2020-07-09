@@ -15,6 +15,17 @@ const isValidJSONResponse = (response) => {
   return true;
 };
 
+const mergeWithState = (rootState, data) => {
+  return Object.keys(data).reduce((obj, key) => {
+    if (rootState.hasOwnProperty(key)) {
+      obj[key] = Object.assign(rootState[key], data[key]);
+    } else {
+      obj[key] = data[key];
+    }
+    return obj;
+  }, {});
+};
+
 // -- STATE -- //
 
 const state = {
@@ -39,7 +50,7 @@ const actions = {
       .post(path, postData)
       .then((response) => {
         if (isValidJSONResponse(response)) {
-          let { data } = response;
+          let data = mergeWithState(rootState, response.data);
           dispatch('setSoppyState', { data }, { root: true });
           if (data.to) SoppyBus.$emit('redirect', { name: data.to });
           return data;
@@ -71,7 +82,7 @@ const actions = {
       .get(path)
       .then((response) => {
         if (isValidJSONResponse(response)) {
-          let { data } = response;
+          let data = mergeWithState(rootState, response.data);
           dispatch('setSoppyPreloadState', { path, data }, { root: true });
           dispatch('setSoppyState', { data }, { root: true });
           if (data.to) SoppyBus.$emit('redirect', { name: data.to });
@@ -116,7 +127,7 @@ const actions = {
       .get(path, opts)
       .then((response) => {
         if (isValidJSONResponse(response)) {
-          let { data } = response;
+          let data = mergeWithState(rootState, response.data);
           dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
           return data;
         } else {
