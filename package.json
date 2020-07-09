@@ -9,7 +9,7 @@
     "url": "git+https://github.com/truefrontier/vue-soppy.git"
   },
   "scripts": {
-    "prepublish": "yarn version",
+    "prepublishOnly": "yarn version",
     "postpublish": "git push --tags"
   },
   "peerDependencies": {
