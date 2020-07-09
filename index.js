@@ -143,12 +143,12 @@ class Soppy {
 
   soppyActions(appActions = {}) {
     return {
-      setSoppyState({ commit }, data) {
-        commit('setSoppyState', data);
+      setSoppyState({ commit }, payload) {
+        commit('setSoppyState', payload);
       },
 
-      setSoppyPreloadState({ commit }, data) {
-        commit('setSoppyPreloadState', data);
+      setSoppyPreloadState({ commit }, payload) {
+        commit('setSoppyPreloadState', payload);
       },
 
       ...appActions,
