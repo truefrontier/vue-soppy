@@ -3,6 +3,18 @@ import axios from 'axios';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 import SoppyBus from '../../utils/bus';
 
+const isValidJSONResponse = (response) => {
+  let { data, headers = {} } = response;
+  // Test Data
+  if (!data) return false;
+
+  // Test Header
+  let contentType = headers['content-type'] || headers['Content-Type'] || '';
+  if (contentType.toLowerCase().indexOf('json') === -1) return false;
+
+  return true;
+};
+
 // -- STATE -- //
 
 const state = {
@@ -25,10 +37,15 @@ const actions = {
 
     return axios
       .post(path, postData)
-      .then(({ data }) => {
-        dispatch('setSoppyState', { data }, { root: true });
-        if (data.to) SoppyBus.$emit('redirect', { name: data.to });
-        return data;
+      .then((response) => {
+        if (isValidJSONResponse(response)) {
+          let { data } = response;
+          dispatch('setSoppyState', { data }, { root: true });
+          if (data.to) SoppyBus.$emit('redirect', { name: data.to });
+          return data;
+        } else {
+          throw 'Not valid JSON response';
+        }
       })
       .catch((err) => {
         if (err && err.response && err.response.status)
@@ -52,11 +69,16 @@ const actions = {
     commit('addGetting', path);
     return axios
       .get(path)
-      .then(({ data }) => {
-        dispatch('setSoppyPreloadState', { path, data }, { root: true });
-        dispatch('setSoppyState', { data }, { root: true });
-        if (data.to) SoppyBus.$emit('redirect', { name: data.to });
-        return data;
+      .then((response) => {
+        if (isValidJSONResponse(response)) {
+          let { data } = response;
+          dispatch('setSoppyPreloadState', { path, data }, { root: true });
+          dispatch('setSoppyState', { data }, { root: true });
+          if (data.to) SoppyBus.$emit('redirect', { name: data.to });
+          return data;
+        } else {
+          throw 'Not valid JSON response';
+        }
       })
       .catch((err) => {
         if (err && err.response && err.response.status)
@@ -92,9 +114,14 @@ const actions = {
     commit('addPreloading', path);
     return axios
       .get(path, opts)
-      .then(({ data }) => {
-        dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
-        return data;
+      .then((response) => {
+        if (isValidJSONResponse(response)) {
+          let { data } = response;
+          dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
+          return data;
+        } else {
+          throw 'Not valid JSON response';
+        }
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
