@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import SoppyBus from 'vue-soppy/utils/bus';
+import SoppyBus from '../utils/bus';
 
 export default {
   name: 'SoppyApp',
@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       component: 'router-view',
+      isMounted: false,
     };
   },
 
@@ -45,7 +46,14 @@ export default {
     $route: 'getData',
   },
 
+  created() {
+    this.getData();
+  },
+
   mounted() {
+    if (this.isMounted) this.getData();
+    this.isMounted = true;
+
     SoppyBus.$on('status-401', () => {
       this.component = this.viewUnauthorized;
     });
