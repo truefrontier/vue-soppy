@@ -26,10 +26,18 @@ class Soppy {
     // Store routesJSON
     this.routesJSON = routesJSON;
 
-    return this;
+    return {
+      install: this.install.bind(this),
+      soppyRoutes: this.soppyRoutes.bind(this),
+      soppyRouter: this.soppyRouter.bind(this),
+      soppyActions: this.soppyActions.bind(this),
+      soppyMutations: this.soppyMutations.bind(this),
+      soppyState: this.soppyState.bind(this),
+      soppyModules: this.soppyModules.bind(this),
+    };
   }
 
-  install = (Vue) => {
+  install(Vue) {
     // Setup Soppy Components
     Vue.component('soppy-app', () =>
       import(/* webpackChunkName: "soppy-app" */ './components/SoppyApp.vue'),
@@ -43,14 +51,14 @@ class Soppy {
       );
 
     return this;
-  };
+  }
 
   /**
    * Merge the routes json created by backend with any custom frontend routes
    * @param  {Array}  routes  Any custom frontend routes
    * @return {Array}          Merged version of created backend routes with frontend routes
    */
-  soppyRoutes = (routes = [], nameToComponentPath = soppyNameToComponentPath) => {
+  soppyRoutes(routes = [], nameToComponentPath = soppyNameToComponentPath) {
     let soppyRoutes = [];
 
     let routesByName = this.getRoutesByName(routes);
@@ -87,7 +95,7 @@ class Soppy {
     this.routesByName = this.getRoutesByName(this.routes);
 
     return this.routes;
-  };
+  }
 
   getRoutesByName(routes) {
     return routes.reduce((obj, route) => {
@@ -101,15 +109,15 @@ class Soppy {
    * @param  {VueRouter} router
    * @return {VueRouter}
    */
-  soppyRouter = (router) => {
+  soppyRouter(router) {
     SoppyBus.$on('redirect', (to) => {
       router.push(to);
     });
 
     return router;
-  };
+  }
 
-  soppyState = (appState = {}) => {
+  soppyState(appState = {}) {
     let state = {
       preloadState: {},
     };
@@ -119,9 +127,9 @@ class Soppy {
     });
 
     return Object.assign(state, appState, window.SoppyState || {});
-  };
+  }
 
-  soppyActions = (appActions = {}) => {
+  soppyActions(appActions = {}) {
     return {
       setSoppyState({ commit }, data) {
         commit('setSoppyState', data);
@@ -133,9 +141,9 @@ class Soppy {
 
       ...appActions,
     };
-  };
+  }
 
-  soppyMutations = (appMutations = {}) => {
+  soppyMutations(appMutations = {}) {
     return {
       setSoppyState(state, { data }) {
         if (data && Object.keys(data).length) {
@@ -156,14 +164,14 @@ class Soppy {
 
       ...appMutations,
     };
-  };
+  }
 
-  soppyModules = (appModules = {}) => {
+  soppyModules(appModules = {}) {
     return {
       soppy: SoppyStore,
       ...appModules,
     };
-  };
+  }
 }
 
 export default Soppy;
