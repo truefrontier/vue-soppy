@@ -158,7 +158,12 @@ class Soppy {
     };
   };
 
-  soppyStore = SoppyStore;
+  soppyModules = (appModules = {}) => {
+    return {
+      soppy: SoppyStore,
+      ...appModules,
+    };
+  };
 }
 
 export default Soppy;

@@ -46,7 +46,7 @@ export const soppyRouter = soppy.soppyRouter;
 export const soppyActions = soppy.soppyActions;
 export const soppyMutations = soppy.soppyMutations;
 export const soppyState = soppy.soppyState;
-export const soppyStore = soppy.soppyStore;
+export const soppyModules = soppy.soppyModules;
 
 ```
 
@@ -75,7 +75,7 @@ __src/store/index.js__
 ```js
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { soppyState, soppyMutations, soppyActions, soppyStore } from '@/vendor/soppy';
+import { soppyState, soppyMutations, soppyActions, soppyModules } from '@/vendor/soppy';
 
 
 Vue.use(Vuex);
@@ -85,6 +85,10 @@ export default new Vuex.Store({
     // Your custom root state
   }),
 
+  getters: {
+    // Your custom root getters
+  },
+
   actions: soppyActions({
     // Your custom root actions
   }),
@@ -93,9 +97,9 @@ export default new Vuex.Store({
     // Your custom root mutations
   }),
 
-  modules: {
-    soppy: soppyStore,
-  },
+  modules: soppyModules({
+    // Your custom modules
+  }),
 });
 ```
 
