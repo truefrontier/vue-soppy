@@ -1,7 +1,9 @@
 <template>
   <div class="SoppyApp">
     <slot></slot>
-    <component v-bind="viewAttrs" :is="component"></component>
+    <keep-alive v-bind="keepAliveAttrs">
+      <component v-bind="viewAttrs" :is="component"></component>
+    </keep-alive>
     <router-view name="modal"></router-view>
     <slot name="after"></slot>
   </div>
@@ -30,6 +32,11 @@ export default {
     },
 
     viewAttrs: {
+      type: Object,
+      default: () => {},
+    },
+
+    keepAliveAttrs: {
       type: Object,
       default: () => {},
     },
