@@ -59,35 +59,35 @@ class Soppy {
    * @return {Array}          Merged version of created backend routes with frontend routes
    */
   soppyRoutes(routes = [], nameToComponentPath = soppyNameToComponentPath) {
-    let soppyRoutes = [];
+    let manualRoutesByName = this.getRoutesByName(routes);
 
-    let routesByName = this.getRoutesByName(routes);
+    let soppyRoutes = this.routesJSON.reduce((arr, routeFromJSON) => {
+      let manualRoute = manualRoutesByName[routeFromJSON.name];
+      let route = routeFromJSON;
+      if (manualRoute) {
+        Object.keys(manualRoute).forEach((key) => {
+          let val = manualRoute[key];
+          route[key] = val;
+        });
+        delete manualRoutesByName[routeFromJSON.name];
+      }
+      arr.push(route);
+      return arr;
+    }, []);
 
-    this.routesJSON.forEach((route) => {
-      let mergedRoute = Object.assign(route, routesByName[route.name]);
-      delete routesByName[route.name];
-      soppyRoutes.push(mergedRoute);
+    Object.keys(manualRoutesByName).forEach((name) => {
+      let route = manualRoutesByName[name];
+      soppyRoutes.unshift(route);
     });
 
-    // Check for any leftover in routesByName
-    if (Object.keys(routesByName).length) {
-      Object.keys(routesByName).forEach((name) => {
-        let route = routesByName[name];
-        soppyRoutes.push(route);
-      });
-    }
-
-    // Reset routesByName
-    routesByName = this.getRoutesByName(soppyRoutes);
+    let routesByName = this.getRoutesByName(soppyRoutes);
 
     // Build routes
     this.routes = soppyRoutes.map((route) => {
-      // Check for path replacements
-      if (routesByName[route.name] && routesByName[route.name].path && route.path) {
-        const regex = /{(.*)}/;
-        const str = route.path;
-        const subst = routesByName[route.name].path;
-        route.path = str.replace(regex, subst);
+      let hasMatch = route.path.match(/{(.*)}/);
+      if (hasMatch && hasMatch.length) {
+        let [str, name] = hasMatch;
+        route.path = route.path.replace(str, routesByName[name].path);
       }
 
       // Set the route's components
