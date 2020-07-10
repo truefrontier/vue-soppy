@@ -10,7 +10,7 @@
   },
   "scripts": {
     "prepublishOnly": "yarn version",
-    "postpublish": "git push --tags"
+    "postpublish": "git push --tags && git push"
   },
   "peerDependencies": {
     "axios": "^0.19.2",
