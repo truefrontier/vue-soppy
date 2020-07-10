@@ -102,7 +102,7 @@ const actions = {
 
   preloadData(
     { commit, dispatch, rootState },
-    { path, force = true, cancelable = true, cancel = true },
+    { path, force = true, cancelable = true, cancel = true, use = false },
   ) {
     if (
       !force &&
@@ -110,6 +110,7 @@ const actions = {
       Object.keys(rootState.preloadState[path]).length
     ) {
       let data = rootState.preloadState[path];
+      if (use) dispatch(`setSoppyState`, { data }, { root: true });
       return dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
     }
 
@@ -129,6 +130,7 @@ const actions = {
         if (isValidJSONResponse(response)) {
           let data = mergeWithState(rootState, response.data);
           dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
+          if (use) dispatch(`setSoppyState`, { data }, { root: true });
           return data;
         } else {
           throw 'Not valid JSON response';

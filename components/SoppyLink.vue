@@ -66,6 +66,11 @@ export default {
       default: false,
     },
 
+    usePreload: {
+      type: Boolean,
+      default: false,
+    },
+
     post: {
       type: Boolean,
       default: false,
@@ -81,6 +86,7 @@ export default {
         force: this.forcePreload,
         cancelable: this.cancelablePreload,
         cancel: this.cancelPreload,
+        use: this.usePreload,
       });
     },
 
