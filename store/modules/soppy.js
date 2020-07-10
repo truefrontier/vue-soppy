@@ -17,7 +17,7 @@ const isValidJSONResponse = (response) => {
 
 const mergeWithState = (rootState, data) => {
   return Object.keys(data).reduce((obj, key) => {
-    if (rootState.hasOwnProperty(key)) {
+    if (rootState.hasOwnProperty(key) && !isString(data[key]) && !isArray(data[key])) {
       obj[key] = Object.assign(clone(rootState[key]), data[key]);
     } else {
       obj[key] = data[key];
