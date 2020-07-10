@@ -1,4 +1,4 @@
-import { clone } from '../../utils/object';
+import { clone, isString, isArray } from '../../utils/helpers';
 import axios from 'axios';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 import SoppyBus from '../../utils/bus';

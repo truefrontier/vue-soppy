@@ -1,5 +1,5 @@
 import SoppyBus from './utils/bus';
-import { clone } from './utils/object';
+import { clone } from './utils/helpers';
 import SoppyStore from './store/modules/soppy';
 
 const soppyNameToComponentPath = (name) => {
