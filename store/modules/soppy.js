@@ -53,14 +53,14 @@ const actions = {
           let data = mergeWithState(rootState, response.data);
           dispatch('setSoppyState', { data }, { root: true });
           if (data.to) SoppyBus.$emit('redirect', { name: data.to });
-          return data;
-        } else {
-          throw 'Not valid JSON response';
         }
+        return response;
       })
       .catch((err) => {
-        if (err && err.response && err.response.status)
+        if (err && err.response && err.response.status) {
           SoppyBus.$emit(`status-${err.response.status}`);
+          return err.response;
+        }
       })
       .finally(() => {
         commit('removePosting', path);
@@ -86,14 +86,14 @@ const actions = {
           dispatch('setSoppyPreloadState', { path, data }, { root: true });
           dispatch('setSoppyState', { data }, { root: true });
           if (data.to) SoppyBus.$emit('redirect', { name: data.to });
-          return data;
-        } else {
-          throw 'Not valid JSON response';
         }
+        return response;
       })
       .catch((err) => {
-        if (err && err.response && err.response.status)
+        if (err && err.response && err.response.status) {
           SoppyBus.$emit(`status-${err.response.status}`);
+          return err.response;
+        }
       })
       .finally(() => {
         commit('removeGetting', path);
@@ -131,16 +131,15 @@ const actions = {
           let data = mergeWithState(rootState, response.data);
           dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
           if (use) dispatch(`setSoppyState`, { data }, { root: true });
-          return data;
-        } else {
-          throw 'Not valid JSON response';
         }
+        return response;
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
           SoppyBus.$emit(`cancel-preloadData`);
         } else if (err && err.response && err.response.status) {
           SoppyBus.$emit(`status-${err.response.status}`);
+          return err.response;
         }
       })
       .finally(() => {
