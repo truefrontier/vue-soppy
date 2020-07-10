@@ -1,30 +1,7 @@
-import { clone, isString, isArray } from '../../utils/helpers';
+import { clone, isString, isArray, mergeWithState, isValidJSONResponse } from '../../utils/helpers';
 import axios from 'axios';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 import SoppyBus from '../../utils/bus';
-
-const isValidJSONResponse = (response) => {
-  let { data, headers = {} } = response;
-  // Test Data
-  if (!data) return false;
-
-  // Test Header
-  let contentType = headers['content-type'] || headers['Content-Type'] || '';
-  if (contentType.toLowerCase().indexOf('json') === -1) return false;
-
-  return true;
-};
-
-const mergeWithState = (rootState, data) => {
-  return Object.keys(data).reduce((obj, key) => {
-    if (rootState.hasOwnProperty(key) && !isString(data[key]) && !isArray(data[key])) {
-      obj[key] = Object.assign(clone(rootState[key]), data[key]);
-    } else {
-      obj[key] = data[key];
-    }
-    return obj;
-  }, {});
-};
 
 // -- STATE -- //
 
