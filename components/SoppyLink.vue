@@ -9,8 +9,8 @@
     :exactActiveClass="exactActiveClass"
     :ariaCurrentValue="ariaCurrentValue"
     :event="event"
-    @mouseenter.native="onMouseenter"
-    @click.native="onClick"
+    @mouseenter.native="onSoppyMouseenter"
+    @click.native="onSoppyClick"
   >
     <slot></slot>
   </router-link>
@@ -75,10 +75,22 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    onClick: {
+      type: Function,
+      default: () => {},
+    },
+
+    onMouseenter: {
+      type: Function,
+      default: () => {},
+    },
   },
 
   methods: {
-    onMouseenter($event) {
+    onSoppyMouseenter($event) {
+      this.onMouseenter($event);
+
       if (this.disablePreload) return;
       let path = $event.target.getAttribute('href');
       this.$store.dispatch('soppy/preloadData', {
@@ -90,7 +102,9 @@ export default {
       });
     },
 
-    onClick($event) {
+    onSoppyClick($event) {
+      this.onClick($event);
+
       if (this.post) {
         let path = $event.target.getAttribute('href');
         $event.preventDefault();
