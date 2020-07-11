@@ -1,5 +1,5 @@
 import SoppyBus from './utils/bus';
-import { clone } from './utils/helpers';
+import { clone, mergeDeep } from './utils/helpers';
 import SoppyStore from './store/modules/soppy';
 
 const soppyNameToComponentPath = (name) => {
@@ -58,7 +58,7 @@ class Soppy {
    * @param  {Array}  routes  Any custom frontend routes
    * @return {Array}          Merged version of created backend routes with frontend routes
    */
-  soppyRoutes(routes = [], nameToComponentPath = soppyNameToComponentPath) {
+  soppyRoutes(routes = [], overrides = {}, nameToComponentPath = soppyNameToComponentPath) {
     let manualRoutesByName = this.getRoutesByName(routes);
 
     let soppyRoutes = this.routesJSON.reduce((arr, routeFromJSON) => {
@@ -99,6 +99,9 @@ class Soppy {
           default: () => import(`@/${nameToComponentPath(route.name)}`),
         };
       }
+
+      // set overrides
+      route = mergeDeep(route, overrides);
 
       return route;
     });
