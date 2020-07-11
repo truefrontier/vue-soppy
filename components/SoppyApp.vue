@@ -82,9 +82,17 @@ export default {
 
   methods: {
     getData() {
-      this.$store.dispatch('soppy/getData', {
-        path: this.$route.meta.soppyPath || this.$route.path,
-      });
+      let payload = {
+        path: this.$route.path,
+      };
+
+      if (this.$route.meta && this.$route.meta.soppy) {
+        Object.keys(this.$route.meta.soppy).forEach((key) => {
+          payload[key] = this.$route.meta.soppy[key];
+        });
+      }
+
+      this.$store.dispatch('soppy/getData', payload);
     },
   },
 };

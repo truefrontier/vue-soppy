@@ -118,9 +118,11 @@ const routes = soppyRoutes([
     name: 'app.custom.modal',
     path: '{app.custom}/modal',
     meta: {
-      get soppyPath() {
-        return window.location.pathname.replace('/modal', '');
-      },
+      soppy: {
+        get path() {
+          return window.location.pathname.replace('/modal', '');
+        },
+      }
     },
     components: {
       default: () => import('@/views/Promo.vue'),
@@ -151,7 +153,7 @@ __NOTES:__
 - Each route's `components` property is generated dynamically from the route's name from the `routes.json`. By default, for example, the component property for `app.welcome` will be `{ default: () => import('@/views/Welcome.vue') }`; or for nested routes like `app.user.settings`, `{ default: () => import('@/views/user/Settings.vue') }`. To change the naming convention used here, override the `component` or `components` property as explained above OR pass in your own naming function as the second argument to `soppyRoutes`. __NOTE:__ All component paths will be prepended with `'@/'` after your naming function to bypass some dynamic import limitations.
 - The first route we're passing in the above example, `app.custom.modal` is how you might implement a child route of sorts.
   - The `path` includes curly brackets around another route's name: `{app.custom}`. This will be replaced by the actually path from `app.custom`  found in `routes.json`
-  - `get soppyPath()` in a route's meta will override the path that will be called to fetch data. In the example case above, we want the same data that fetched in the parent route.
+  - `get path()` in a route's `meta.soppy` object will override the path that will be called to fetch data. In the example case above, we want the same data that fetched in the parent route.
   - The `SoppyApp` component has two router views: 1 is `default` and the other is named: `modal`. This way you can show multiple views (e.g. a parent and a child) at the same route.
 
 ---
