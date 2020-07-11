@@ -44,7 +44,7 @@ const actions = {
       });
   },
 
-  getData({ commit, dispatch, rootState }, { path, force = true }) {
+  getData({ commit, dispatch, rootState }, { path, force = true, params = {} }) {
     if (
       !force &&
       rootState.preloadState.hasOwnProperty(path) &&
@@ -53,10 +53,10 @@ const actions = {
       let data = rootState.preloadState[path];
       return dispatch('setSoppyState', { data }, { root: true });
     }
-
+    let opts = { params };
     commit('addGetting', path);
     return axios
-      .get(path)
+      .get(path, opts)
       .then((response) => {
         if (isValidJSONResponse(response)) {
           let data = mergeWithState(rootState, response.data);
@@ -79,7 +79,7 @@ const actions = {
 
   preloadData(
     { commit, dispatch, rootState },
-    { path, force = true, cancelable = true, cancel = true, use = false },
+    { path, force = true, cancelable = true, cancel = true, use = false, params = {} },
   ) {
     if (
       !force &&
@@ -91,7 +91,7 @@ const actions = {
       return dispatch(`setSoppyPreloadState`, { path, data }, { root: true });
     }
 
-    let opts = {};
+    let opts = { params };
     if (cancel && state.preloadCancelSource) state.preloadCancelSource.cancel('cancel-preloadData');
     if (cancelable) {
       const CancelToken = axios.CancelToken;
