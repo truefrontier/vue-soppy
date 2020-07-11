@@ -16,18 +16,18 @@ export const isObject = (item) => item && typeof item === 'object' && !Array.isA
 
 /**
  * Test variable to see if it's a String
- * @param  {String} str
+ * @param  {String} item
  * @return {Boolean}
  * @see https://stackoverflow.com/a/9436948/622287
  */
-export const isString = (str) => typeof str === 'string' || str instanceof String;
+export const isString = (item) => typeof item === 'string' || item instanceof String;
 
 /**
  * Test variable to see if it's an Array
- * @param  {Array} arr
+ * @param  {Array} item
  * @return {Boolean}
  */
-export const isArray = (arr) => Array.isArray(arr);
+export const isArray = (item) => Array.isArray(item);
 
 /**
  * Check to see if response is a valid JSON
@@ -54,7 +54,7 @@ export const isValidJSONResponse = (response) => {
  */
 export const mergeWithState = (rootState, data) => {
   return Object.keys(data).reduce((obj, key) => {
-    if (rootState.hasOwnProperty(key) && !isString(data[key]) && !isArray(data[key])) {
+    if (rootState.hasOwnProperty(key) && isObject(data[key])) {
       obj[key] = Object.assign(clone(rootState[key]), data[key]);
     } else {
       obj[key] = data[key];
