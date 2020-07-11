@@ -10,6 +10,7 @@ export const clone = (data, fallback = {}) => JSON.parse(JSON.stringify(data || 
  * Test variable to see if it's a String
  * @param  {String} str
  * @return {Boolean}
+ * @see https://stackoverflow.com/a/9436948/622287
  */
 export const isString = (str) => typeof str === 'string' || str instanceof String;
 
