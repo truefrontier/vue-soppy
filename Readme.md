@@ -103,6 +103,8 @@ export default new Vuex.Store({
 });
 ```
 
+__NOTES:__ The second and third argument for `soppyActions` can optionally be `setSoppyStateCallback` and `setSoppyPreloadStateCallback` respectively. 
+
 ---
 
 __src/router/index.js__

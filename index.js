@@ -144,14 +144,20 @@ class Soppy {
     return Object.assign(state, appState, window.SoppyState || {});
   }
 
-  soppyActions(appActions = {}) {
+  soppyActions(
+    appActions = {},
+    setSoppyStateCallback = () => {},
+    setSoppyPreloadStateCallback = () => {},
+  ) {
     return {
       setSoppyState({ commit }, payload) {
         commit('setSoppyState', payload);
+        setSoppyStateCallback(payload);
       },
 
       setSoppyPreloadState({ commit }, payload) {
         commit('setSoppyPreloadState', payload);
+        setSoppyPreloadStateCallback(payload);
       },
 
       ...appActions,
