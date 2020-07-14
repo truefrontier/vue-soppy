@@ -75,6 +75,7 @@ export default {
   },
 
   beforeDestroy() {
+    this.isMounted = false;
     SoppyBus.$off('status-401');
     SoppyBus.$off('status-404');
     SoppyBus.$off('status-500');
