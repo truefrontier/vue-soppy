@@ -9,6 +9,7 @@ const state = {
   isGetting: [],
   isPosting: [],
   isPreloading: [],
+  cancelSource: null,
   preloadCancelSource: null,
 };
 
@@ -46,7 +47,10 @@ const actions = {
       });
   },
 
-  getData({ commit, dispatch, rootState }, { path, force = true, params = {} }) {
+  getData(
+    { commit, dispatch, rootState },
+    { path, force = true, cancelable = true, cancel = true, params = {} },
+  ) {
     if (!path) return;
 
     if (
@@ -57,7 +61,16 @@ const actions = {
       let data = rootState.preloadState[path];
       return dispatch('setSoppyState', { data }, { root: true });
     }
+
     let opts = { params };
+    if (cancel && state.cancelSource) state.cancelSource.cancel('cancel-getData');
+    if (cancelable) {
+      const CancelToken = axios.CancelToken;
+      const source = CancelToken.source();
+      commit('setCancelSource', source);
+      opts.cancelToken = source.token;
+    }
+
     commit('addGetting', path);
     return axios
       .get(path, opts)
@@ -177,6 +190,10 @@ const mutations = {
       isPreloading.splice(index, 1);
       state.isPreloading = isPreloading;
     }
+  },
+
+  setCancelSource(state, source) {
+    state.cancelSource = source;
   },
 
   setPreloadCancelSource(state, source) {
