@@ -150,14 +150,14 @@ class Soppy {
     setSoppyPreloadStateCallback = () => {},
   ) {
     return {
-      setSoppyState({ commit }, payload) {
-        commit('setSoppyState', payload);
-        setSoppyStateCallback(payload);
+      setSoppyState(store, payload) {
+        store.commit('setSoppyState', payload);
+        setSoppyStateCallback(store, payload);
       },
 
-      setSoppyPreloadState({ commit }, payload) {
-        commit('setSoppyPreloadState', payload);
-        setSoppyPreloadStateCallback(payload);
+      setSoppyPreloadState(store, payload) {
+        store.commit('setSoppyPreloadState', payload);
+        setSoppyPreloadStateCallback(store, payload);
       },
 
       ...appActions,
