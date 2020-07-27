@@ -1,4 +1,11 @@
-import { clone, isString, isArray, mergeWithState, isValidJSONResponse } from '../../utils/helpers';
+import {
+  clone,
+  isString,
+  isArray,
+  mergeWithState,
+  isValidJSONResponse,
+  jsonToFormData,
+} from '../../utils/helpers';
 import axios from 'axios';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 import SoppyBus from '../../utils/bus';
@@ -26,8 +33,10 @@ const actions = {
     commit('addPosting', path);
     if (!path) path = window.location.href;
 
+    let formData = jsonToFormData(postData);
+
     return axios
-      .post(path, postData)
+      .post(path, formData)
       .then((response) => {
         if (isValidJSONResponse(response)) {
           let data = mergeWithState(rootState, response.data);
