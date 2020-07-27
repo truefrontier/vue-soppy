@@ -46,11 +46,23 @@ export default {
     return {
       component: 'router-view',
       isMounted: false,
+      hasModal: false,
     };
   },
 
   watch: {
-    $route: 'getData',
+    $route: {
+      deep: true,
+      handler($route) {
+        this.getData($route);
+        this.checkForModal($route);
+      },
+    },
+
+    hasModal(val) {
+      if (val) document.body.classList.add('soppy-modal-view');
+      else document.body.classList.remove('soppy-modal-view');
+    },
   },
 
   created() {
@@ -88,12 +100,16 @@ export default {
       };
 
       if (this.$route.meta && this.$route.meta.soppy) {
-        Object.keys(this.$route.meta.soppy).forEach((key) => {
-          payload[key] = this.$route.meta.soppy[key];
+        Object.keys($route.meta.soppy).forEach((key) => {
+          payload[key] = $route.meta.soppy[key];
         });
       }
 
       this.$store.dispatch('soppy/getData', payload);
+    },
+
+    checkForModal($route) {
+      this.hasModal = !!$route.matched[0]?.components?.modal;
     },
   },
 };
