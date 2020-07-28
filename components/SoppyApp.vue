@@ -53,9 +53,9 @@ export default {
   watch: {
     $route: {
       deep: true,
-      handler($route) {
-        this.getData($route);
-        this.checkForModal($route);
+      handler(val) {
+        this.getData(val);
+        this.checkForModal(val);
       },
     },
 
@@ -94,22 +94,24 @@ export default {
   },
 
   methods: {
-    getData() {
+    getData(route) {
+      if (!route) route = this.$route;
       let payload = {
-        path: this.$route.path,
+        path: route.path,
       };
 
-      if (this.$route.meta && this.$route.meta.soppy) {
-        Object.keys($route.meta.soppy).forEach((key) => {
-          payload[key] = $route.meta.soppy[key];
+      if (route.meta && route.meta.soppy) {
+        Object.keys(route.meta.soppy).forEach((key) => {
+          payload[key] = route.meta.soppy[key];
         });
       }
 
       this.$store.dispatch('soppy/getData', payload);
     },
 
-    checkForModal($route) {
-      this.hasModal = !!$route.matched[0]?.components?.modal;
+    checkForModal(route) {
+      if (!route) route = this.$route;
+      this.hasModal = !!route.matched[0]?.components?.modal;
     },
   },
 };
