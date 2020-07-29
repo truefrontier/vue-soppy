@@ -57,7 +57,7 @@ const actions = {
   },
 
   getData(
-    { commit, dispatch, rootState },
+    { state, commit, dispatch, rootState },
     { path, force = true, cancelable = true, cancel = true, params = {} },
   ) {
     if (!path) return;
@@ -104,7 +104,7 @@ const actions = {
   },
 
   preloadData(
-    { commit, dispatch, rootState },
+    { state, commit, dispatch, rootState },
     { path, force = true, cancelable = true, cancel = true, use = false, params = {} },
   ) {
     if (!path) return;
