@@ -42,6 +42,7 @@ const actions = {
           let data = mergeWithState(rootState, response.data);
           dispatch('setSoppyState', { data }, { root: true });
           if (data.to) SoppyBus.$emit('redirect', { name: data.to });
+          if (response.status) SoppyBus.$emit(`status-${response.status}`);
         }
         return response;
       })
@@ -89,6 +90,7 @@ const actions = {
           let data = mergeWithState(rootState, response.data);
           dispatch('setSoppyPreloadState', { path, data }, { root: true });
           dispatch('setSoppyState', { data }, { root: true });
+          if (response.status) SoppyBus.$emit(`status-${response.status}`);
           if (data.to) SoppyBus.$emit('redirect', { name: data.to });
         }
         return response;
