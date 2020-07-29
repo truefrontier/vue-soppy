@@ -61,6 +61,7 @@ const actions = {
     { path, force = true, cancelable = true, cancel = true, params = {} },
   ) {
     if (!path) return;
+    if (!force && state.isGetting.includes(path)) return;
 
     if (
       !force &&
@@ -108,6 +109,7 @@ const actions = {
     { path, force = true, cancelable = true, cancel = true, use = false, params = {} },
   ) {
     if (!path) return;
+    if (!force && state.isPreloading.includes(path)) return;
 
     if (
       !force &&
