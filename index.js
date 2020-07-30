@@ -141,7 +141,7 @@ class Soppy {
       if (route.path.indexOf(':') === -1) state.preloadState[route.path] = {};
     });
 
-    return Object.assign(state, appState, window.SoppyState || {});
+    return Object.assign(state, appState, window.SoppyState);
   }
 
   soppyActions(
