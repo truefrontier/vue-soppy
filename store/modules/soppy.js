@@ -48,6 +48,7 @@ const actions = {
       })
       .catch((err) => {
         if (err && err.response && err.response.status) {
+          SoppyBus.$emit(`post-error`, err);
           SoppyBus.$emit(`status-${err.response.status}`);
           return err.response;
         }
@@ -97,6 +98,7 @@ const actions = {
       })
       .catch((err) => {
         if (err && err.response && err.response.status) {
+          SoppyBus.$emit(`get-error`, err);
           SoppyBus.$emit(`status-${err.response.status}`);
           return err.response;
         }
@@ -147,6 +149,7 @@ const actions = {
         if (axios.isCancel(err)) {
           SoppyBus.$emit(`cancel-preloadData`);
         } else if (err && err.response && err.response.status) {
+          SoppyBus.$emit(`preload-error`, err);
           SoppyBus.$emit(`status-${err.response.status}`);
           return err.response;
         }
