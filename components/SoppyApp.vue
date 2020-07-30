@@ -77,6 +77,10 @@ export default {
       this.component = 'router-view';
     });
 
+    SoppyBus.$on('status-201', () => {
+      this.component = 'router-view';
+    });
+
     SoppyBus.$on('status-401', () => {
       this.component = this.viewUnauthorized;
     });
@@ -93,6 +97,7 @@ export default {
   beforeDestroy() {
     this.isMounted = false;
     SoppyBus.$off('status-200');
+    SoppyBus.$off('status-201');
     SoppyBus.$off('status-401');
     SoppyBus.$off('status-404');
     SoppyBus.$off('status-500');
