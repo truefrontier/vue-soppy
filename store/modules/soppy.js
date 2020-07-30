@@ -27,7 +27,7 @@ const getters = {};
 // -- ACTIONS -- //
 
 const actions = {
-  postData({ commit, dispatch, rootState }, { path, postData }) {
+  postData({ commit, dispatch, rootState }, { path, postData, postConfig = {} }) {
     if (!path) return;
 
     commit('addPosting', path);
@@ -36,7 +36,7 @@ const actions = {
     let formData = jsonToFormData(postData);
 
     return axios
-      .post(path, formData)
+      .post(path, formData, postConfig)
       .then((response) => {
         if (isValidJSONResponse(response)) {
           let data = mergeWithState(rootState, response.data);
